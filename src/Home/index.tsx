@@ -13,7 +13,6 @@ export default function Home() {
 
     return (
         <S.Container>
-            <Loading />
             <S.Scroll>
                 <S.Header>
                     <S.Title>Random Things</S.Title>

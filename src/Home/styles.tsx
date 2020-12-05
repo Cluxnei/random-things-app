@@ -1,10 +1,8 @@
 import styled from 'styled-components/native';
-import { colors, metrics } from '../../services/constants';
-import Constants from 'expo-constants';
-import { Platform } from 'react-native';
+import { colors, metrics, isAndroid } from '../../services/constants';
 
 export const Container = styled.View`
-    padding-top: ${Platform.OS === 'android' ? Constants.statusBarHeight : 0}px;
+    padding-top: ${isAndroid ? metrics.statusBarHeight : 0}px;
     flex: 1;
     background-color: ${colors.backgroundColor};
     padding-left: ${metrics.baseMargin / 2}px;

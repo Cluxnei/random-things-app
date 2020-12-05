@@ -1,4 +1,5 @@
-import { Dimensions } from 'react-native';
+import { Dimensions, Platform } from 'react-native';
+import Constants from 'expo-constants';
 
 const { width, height } = Dimensions.get('screen');
 
@@ -12,6 +13,11 @@ export const metrics = {
     basePadding: 10,
     screenWidth: width,
     screenHeight: height,
+    statusBarHeight: Constants.statusBarHeight,
 };
+
+export const isAndroid = Platform.OS === 'android';
+
+export const isIos = Platform.OS === 'ios';
 
 export default { colors, metrics };
