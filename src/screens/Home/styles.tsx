@@ -68,7 +68,7 @@ export const Card = styled.TouchableOpacity`
 
 export const CardTitle = styled.Text`
     font-size: 30px;
-    color: white;
+    color: ${(props: { color?: string | undefined }) => props.color || 'white'};
     padding: ${metrics.basePadding}px;
     font-weight: 300;
 `;

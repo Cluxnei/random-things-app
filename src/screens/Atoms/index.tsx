@@ -1,9 +1,9 @@
 import React, { useState, createRef, useEffect } from 'react';
-import * as S from './styles';
+import * as S from '../Numbers/styles';
 import * as Hs from '../Home/styles';
 import { colors, metrics } from '../../../services/constants';
 import SubmitButton from '../../components/SubmitButton';
-import { generate } from './random';
+import { generate, IAtom } from './random';
 import Loading from '../../components/Loading';
 import { ScrollView } from 'react-native-gesture-handler';
 
@@ -14,27 +14,32 @@ function randomCardColor() {
 
 const scrollRef = createRef<ScrollView>();
 
-export default function Numbers() {
+export default function Atoms() {
 
     const [howMany, setHowMany] = useState(1);
-    const [real, setReal] = useState(false);
+    const [sortByAtomicNumber, setSortByAtomicNumber] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [min, setMin] = useState('0');
-    const [max, setMax] = useState('1');
-    const [randomNumbers, setRandomNumbers] = useState<number[]>([]);
+    const [randomAtoms, setRandomAtoms] = useState<number[]>([]);
+    const [unique, setUnique] = useState(false);
 
     useEffect(() => {
-        setRandomNumbers([]);
-    }, [howMany, real, min, max]);
+        setRandomAtoms([]);
+    }, [howMany, sortByAtomicNumber]);
 
-    function normalize(text: string): string {
-        const number = Number(text.replace(/\,/g, '.'));
-        return isNaN(number) ? '0' : number.toString();
+    function handleUniqueChange() {
+        setUnique((old) => !old);
+        if (!unique && howMany > 118) {
+            setHowMany(118);
+        }
+    }
+
+    function needBlackText(slug: string): boolean {
+        return ['Ag', 'Po', 'Ca', 'Zr', 'Cs', 'At', 'Rn', 'Ra', 'U', 'Fm', 'Fl', 'No', 'La', 'Ts'].includes(slug);
     }
 
     async function handleSubmit() {
         setLoading(true);
-        setRandomNumbers(generate(howMany, real, Number(min), Number(max)));
+        setRandomAtoms(generate(howMany, sortByAtomicNumber, unique));
         await new Promise((r) => setTimeout(r, 500));
         setLoading(false);
         await new Promise((r) => setTimeout(r, 500));
@@ -48,7 +53,7 @@ export default function Numbers() {
     return (
         <S.Container ref={scrollRef}>
             <S.Header>
-                <S.HeaderTitle>Random numbers</S.HeaderTitle>
+                <S.HeaderTitle>Random atoms</S.HeaderTitle>
             </S.Header>
             <Hs.Cards>
                 <S.Card bg={colors.cardColors[0]} column fStart>
@@ -58,32 +63,29 @@ export default function Numbers() {
                         minimumValue={1}
                         step={1}
                         value={howMany}
-                        maximumValue={80}
+                        maximumValue={unique ? 118 : 300}
                         minimumTrackTintColor={colors.cardColors[1]}
                         maximumTrackTintColor={colors.cardColors[2]}
                         thumbTintColor={colors.cardColors[3]}
                     />
                     <Hs.CardTitle>{howMany}</Hs.CardTitle>
                 </S.Card>
-                <Hs.Card bg={colors.cardColors[1]} onPress={() => setReal((old) => !old)}>
-                    <Hs.CardTitle>Real?</Hs.CardTitle>
-                    <Hs.CardTitle>{real ? 'yes' : 'no'}</Hs.CardTitle>
+                <Hs.Card bg={colors.cardColors[1]} onPress={() => setSortByAtomicNumber((old) => !old)} column>
+                    <Hs.CardTitle>Sort by atomic number?</Hs.CardTitle>
+                    <Hs.CardTitle>{sortByAtomicNumber ? 'yes' : 'no'}</Hs.CardTitle>
                 </Hs.Card>
-                <S.Card bg={colors.cardColors[2]}>
-                    <Hs.CardTitle>Min:</Hs.CardTitle>
-                    <S.InputNumber value={min} onChangeText={setMin} onBlur={() => setMin((old) => normalize(old))} />
-                </S.Card>
-                <S.Card bg={colors.cardColors[3]} >
-                    <Hs.CardTitle>Max:</Hs.CardTitle>
-                    <S.InputNumber value={max} onChangeText={setMax} onBlur={() => setMax((old) => normalize(old))} />
-                </S.Card>
+                <Hs.Card bg={colors.cardColors[1]} onPress={handleUniqueChange}>
+                    <Hs.CardTitle>Unique?</Hs.CardTitle>
+                    <Hs.CardTitle>{unique ? 'yes' : 'no'}</Hs.CardTitle>
+                </Hs.Card>
             </Hs.Cards>
             <SubmitButton onPress={handleSubmit} />
-            {!loading && randomNumbers.length > 0 && (
+            {!loading && randomAtoms.length > 0 && (
                 <Hs.Cards>
-                    {randomNumbers.map((number: number, index: number) => (
-                        <S.Card key={`${index.toString()}-${number}`} bg={randomCardColor()}>
-                            <Hs.CardTitle>{number.toString()}</Hs.CardTitle>
+                    {randomAtoms.map((atom: IAtom, index: number) => (
+                        <S.Card key={`${index.toString()}-${atom.slug}`} bg={atom.color}>
+                            <Hs.CardTitle color={needBlackText(atom.slug) ? 'black' : undefined}>{atom.name}, {atom.slug}</Hs.CardTitle>
+                            <S.Tiny color={needBlackText(atom.slug) ? 'black' : undefined}>{atom.atomicNumber}</S.Tiny>
                         </S.Card>
                     ))}
                 </Hs.Cards>

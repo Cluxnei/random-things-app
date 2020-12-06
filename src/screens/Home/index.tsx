@@ -2,7 +2,7 @@ import React from 'react';
 import { colors } from '../../../services/constants';
 import * as S from './styles';
 import Icons from './icons';
-import { handleNumbersPress } from './handlers';
+import { handleNumbersPress, handleAtomsPress, handleImagesPress } from './handlers';
 
 export default function Home() {
 
@@ -29,7 +29,7 @@ export default function Home() {
                         <S.CardTitle>Animals</S.CardTitle>
                         <S.CardImage source={Icons.animal} />
                     </S.Card>
-                    <S.Card bg={randomCardColor()}>
+                    <S.Card bg={randomCardColor()} onPress={handleAtomsPress}>
                         <S.CardTitle>Atoms</S.CardTitle>
                         <S.CardImage source={Icons.atom} />
                     </S.Card>
@@ -37,7 +37,7 @@ export default function Home() {
                         <S.CardTitle>Calendar dates</S.CardTitle>
                         <S.CardImage source={Icons.calendar} />
                     </S.Card>
-                    <S.Card bg={randomCardColor()}>
+                    <S.Card bg={randomCardColor()} onPress={handleImagesPress}>
                         <S.CardTitle>Images</S.CardTitle>
                         <S.CardImage source={Icons.camera} />
                     </S.Card>

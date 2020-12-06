@@ -47,3 +47,16 @@ export const InputNumber = styled.TextInput.attrs({
 export const SubmitAnimation = styled(LottieView)`
     width: 100%;
 `;
+
+export const Tiny = styled.Text`
+    font-size: 25px;
+    font-weight: 100;
+    color: ${(props: { color?: string | undefined }) => props.color || 'white'};
+`;
+
+export const Image = styled.Image.attrs({
+    resizeMode: 'contain',
+})`
+    width: ${metrics.screenWidth}px;
+    height: ${metrics.screenHeight}px;
+`;
