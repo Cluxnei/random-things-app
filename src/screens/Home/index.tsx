@@ -1,8 +1,8 @@
 import React from 'react';
-import { colors } from '../../services/constants';
+import { colors } from '../../../services/constants';
 import * as S from './styles';
 import Icons from './icons';
-import Loading from '../components/Loading';
+import { handleNumbersPress } from './handlers';
 
 export default function Home() {
 
@@ -21,7 +21,7 @@ export default function Home() {
                     </S.SearchButton>
                 </S.Header>
                 <S.Cards>
-                    <S.Card bg={randomCardColor()}>
+                    <S.Card bg={randomCardColor()} onPress={handleNumbersPress}>
                         <S.CardTitle>Numbers</S.CardTitle>
                         <S.CardImage source={Icons.numbers} />
                     </S.Card>

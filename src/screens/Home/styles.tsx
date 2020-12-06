@@ -1,5 +1,6 @@
+import { ReactNode } from 'react';
 import styled from 'styled-components/native';
-import { colors, metrics, isAndroid } from '../../services/constants';
+import { colors, metrics, isAndroid } from '../../../services/constants';
 
 export const Container = styled.View`
     padding-top: ${isAndroid ? metrics.statusBarHeight : 0}px;
@@ -44,21 +45,32 @@ export const Cards = styled.View`
     flex: 1;
 `;
 
+export interface CardProps {
+    children?: ReactNode;
+    bg?: string,
+    halfWidth?: boolean,
+    column?: boolean,
+    fStart?: boolean,
+    onPress?: () => void,
+    centered?: boolean,
+}
+
 export const Card = styled.TouchableOpacity`
-    background-color: ${(props: { bg: string }) => props.bg || 'black'};
+    background-color: ${(props: CardProps) => props.bg || 'black'};
     margin: ${metrics.baseMargin / 6}px 0;
     justify-content: center;
-    align-items: center;
-    width: 100%;
+    align-items: ${(props: CardProps) => props.fStart ? 'flex-start' : 'center'};
+    width: ${(props: CardProps) => props.halfWidth ? 50 : 100}%;
     padding: ${metrics.basePadding * 2}px;
-    flex-direction: row;
-    justify-content: space-between;
+    flex-direction: ${(props: CardProps) => props.column ? 'column' : 'row'};
+    justify-content: ${(props: CardProps) => props.centered ? 'center' : 'space-between'};
 `;
 
 export const CardTitle = styled.Text`
     font-size: 30px;
     color: white;
     padding: ${metrics.basePadding}px;
+    font-weight: 300;
 `;
 
 export const CardImage = styled.Image.attrs({
