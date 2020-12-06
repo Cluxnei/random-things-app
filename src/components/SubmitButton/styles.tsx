@@ -9,7 +9,7 @@ export const Button = styled.TouchableOpacity`
     position: relative;
     padding: 0;
     height: 150px;
-    overflow: visible;
+    overflow: hidden;
 `;
 
 export const Animation = styled(LottieView).attrs({

@@ -2,7 +2,7 @@ import { NavigationContainerProps, NavigationHelpers } from '@react-navigation/n
 import { StackNavigationHelpers } from '@react-navigation/stack/lib/typescript/src/types';
 import * as React from 'react';
 
-export const navigationRef: React.RefObject<StackNavigationHelpers> = React.createRef();
+export const navigationRef = React.createRef<StackNavigationHelpers>();
 
 export function navigate(name: string, params?: object): void {
     return navigationRef.current?.navigate(name, params);
