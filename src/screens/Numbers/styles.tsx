@@ -57,6 +57,7 @@ export const Tiny = styled.Text`
 export const Image = styled.Image.attrs({
     resizeMode: 'contain',
 })`
-    width: ${metrics.screenWidth}px;
+    width: ${metrics.screenWidth - metrics.baseMargin * 2}px;
     height: ${metrics.screenHeight}px;
+    margin-left: ${metrics.baseMargin}px;
 `;
